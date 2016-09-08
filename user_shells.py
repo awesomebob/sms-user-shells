@@ -4,11 +4,8 @@ from collections import Counter
 import re
 
 etcpasswd = open('/etc/passwd')
-pwf = etcpasswd.read()
+shells = re.findall('(?<=:)([^:]+)$', etcpasswd.read().rstrip(), re.MULTILINE)
 etcpasswd.close()
-
-lines = pwf.rstrip().split("\n")
-shells = [re.split(":", line)[-1] for line in lines]
 
 for value, count in Counter(shells).most_common():
     print(value + ":", count)
